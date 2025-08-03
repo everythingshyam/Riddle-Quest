@@ -558,11 +558,6 @@
             const currentTime = new Date();
             const elapsed = Math.floor((currentTime - gameState.startTime) / 1000);
             
-            // Play tick sound every 10 seconds
-            if (elapsed > 0 && elapsed % 10 === 0) {
-                playTimerTick();
-            }
-            
             const minutes = Math.floor(elapsed / 60);
             const seconds = elapsed % 60;
             
