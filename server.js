@@ -1,7 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { Pool } = require('@neondatabase/serverless');
+const { Pool, neonConfig } = require('@neondatabase/serverless');
+const ws = require('ws');
+
+// Configure WebSocket for Neon
+neonConfig.webSocketConstructor = ws;
 
 const app = express();
 const PORT = process.env.PORT || 5000;
