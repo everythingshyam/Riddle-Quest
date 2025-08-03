@@ -13,10 +13,10 @@
 
         body {
             font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            background: linear-gradient(135deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ff006e);
             background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-            color: #e94560;
+            animation: gradientShift 6s ease infinite;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -26,7 +26,9 @@
 
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
             100% { background-position: 0% 50%; }
         }
 
@@ -34,26 +36,30 @@
             width: 90%;
             max-width: 800px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            border: 2px solid #e94560;
-            box-shadow: 0 0 30px rgba(233, 69, 96, 0.3), 
-                        0 0 60px rgba(15, 52, 96, 0.2),
-                        inset 0 0 40px rgba(242, 113, 33, 0.1);
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5) 1;
+            box-shadow: 0 0 40px rgba(255, 0, 110, 0.4), 
+                        0 0 80px rgba(131, 56, 236, 0.3),
+                        0 0 120px rgba(58, 134, 255, 0.2),
+                        inset 0 0 50px rgba(6, 255, 165, 0.1);
             position: relative;
-            animation: containerGlow 3s ease-in-out infinite alternate;
+            animation: containerGlow 2s ease-in-out infinite alternate;
         }
 
         @keyframes containerGlow {
             0% { 
-                box-shadow: 0 0 30px rgba(233, 69, 96, 0.3), 
-                           0 0 60px rgba(15, 52, 96, 0.2),
-                           inset 0 0 40px rgba(242, 113, 33, 0.1);
+                box-shadow: 0 0 40px rgba(255, 0, 110, 0.4), 
+                           0 0 80px rgba(131, 56, 236, 0.3),
+                           0 0 120px rgba(58, 134, 255, 0.2),
+                           inset 0 0 50px rgba(6, 255, 165, 0.1);
             }
             100% { 
-                box-shadow: 0 0 40px rgba(233, 69, 96, 0.5), 
-                           0 0 80px rgba(15, 52, 96, 0.3),
-                           inset 0 0 50px rgba(242, 113, 33, 0.2);
+                box-shadow: 0 0 60px rgba(255, 0, 110, 0.6), 
+                           0 0 100px rgba(131, 56, 236, 0.5),
+                           0 0 140px rgba(58, 134, 255, 0.4),
+                           inset 0 0 70px rgba(6, 255, 165, 0.2);
             }
         }
 
@@ -63,20 +69,23 @@
         }
 
         .title {
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #e94560, #f27121, #00d4aa, #e94560);
-            background-size: 300% 300%;
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #ff006e, #ffbe0b, #8338ec, #06ffa5, #3a86ff, #ff006e);
+            background-size: 400% 400%;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            text-shadow: 0 0 20px rgba(255, 0, 110, 0.8), 0 0 40px rgba(131, 56, 236, 0.6);
             margin-bottom: 10px;
-            animation: titleRainbow 4s ease-in-out infinite;
+            animation: titleRainbow 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 190, 11, 0.7));
         }
 
         @keyframes titleRainbow {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
             100% { background-position: 0% 50%; }
         }
 
@@ -191,20 +200,23 @@
         }
 
         .btn {
-            background: linear-gradient(45deg, #e94560, #f27121, #00d4aa, #e94560);
-            background-size: 300% 300%;
+            background: linear-gradient(45deg, #ff006e, #ffbe0b, #8338ec, #06ffa5, #ff006e);
+            background-size: 400% 400%;
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 16px 32px;
             font-size: 1.1rem;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
+            font-weight: bold;
             position: relative;
             overflow: hidden;
-            animation: buttonGradient 3s ease infinite;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+            animation: buttonGradient 2s ease infinite;
+            box-shadow: 0 6px 20px rgba(255, 0, 110, 0.4), 0 0 30px rgba(131, 56, 236, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn::before {
@@ -214,8 +226,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.4s;
         }
 
         .btn:hover::before {
@@ -223,13 +235,17 @@
         }
 
         .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5), 0 0 20px rgba(0, 212, 170, 0.3);
+            transform: translateY(-4px) scale(1.08);
+            box-shadow: 0 12px 35px rgba(255, 0, 110, 0.6), 
+                        0 0 50px rgba(131, 56, 236, 0.5),
+                        0 0 80px rgba(6, 255, 165, 0.3);
         }
 
         @keyframes buttonGradient {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
             100% { background-position: 0% 50%; }
         }
 
@@ -436,13 +452,13 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(45deg, #e94560, #f27121, #00d4aa, #e94560);
-            background-size: 200% 200%;
+            background: linear-gradient(45deg, #ff006e, #ffbe0b, #8338ec, #06ffa5, #3a86ff, #ff006e);
+            background-size: 300% 300%;
             width: 0%;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: progressGradient 3s ease infinite;
+            animation: progressGradient 2s ease infinite;
             position: relative;
-            box-shadow: 0 0 10px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.6), 0 0 25px rgba(131, 56, 236, 0.4);
         }
 
         @keyframes progressShimmer {
@@ -607,6 +623,65 @@
     </div>
 
     <script>
+        // Audio Context for sound effects
+        let audioContext;
+        
+        // Initialize audio context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Sound effect functions
+        function playSound(frequency, duration, type = 'sine', volume = 0.3) {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function playButtonClick() {
+            playSound(800, 0.1, 'square', 0.2);
+        }
+
+        function playCorrectAnswer() {
+            // Play a rising chord
+            setTimeout(() => playSound(523, 0.3, 'sine', 0.3), 0);    // C
+            setTimeout(() => playSound(659, 0.3, 'sine', 0.3), 100);  // E
+            setTimeout(() => playSound(784, 0.4, 'sine', 0.3), 200);  // G
+        }
+
+        function playIncorrectAnswer() {
+            // Play a descending sound
+            playSound(400, 0.2, 'triangle', 0.3);
+            setTimeout(() => playSound(300, 0.3, 'triangle', 0.3), 100);
+        }
+
+        function playVictorySound() {
+            // Play a victory fanfare
+            const melody = [523, 659, 784, 1047, 1047, 1047];
+            melody.forEach((freq, index) => {
+                setTimeout(() => playSound(freq, 0.3, 'sine', 0.3), index * 150);
+            });
+        }
+
+        function playTimerTick() {
+            playSound(1000, 0.05, 'square', 0.1);
+        }
+
         // Game state
         let gameState = {
             teamName: '',
@@ -626,10 +701,12 @@
 
         // Start the game
         function startGame() {
+            playButtonClick();
             const teamNameInput = document.getElementById('teamNameInput');
             const teamName = teamNameInput.value.trim();
             
             if (!teamName) {
+                playIncorrectAnswer();
                 alert('Please enter a team name!');
                 return;
             }
@@ -676,6 +753,11 @@
             const currentTime = new Date();
             const elapsed = Math.floor((currentTime - gameState.startTime) / 1000);
             
+            // Play tick sound every 10 seconds
+            if (elapsed > 0 && elapsed % 10 === 0) {
+                playTimerTick();
+            }
+            
             const minutes = Math.floor(elapsed / 60);
             const seconds = elapsed % 60;
             
@@ -691,11 +773,13 @@
 
         // Check answer for specific riddle
         function checkAnswer(riddleNumber) {
+            playButtonClick();
             const answerInput = document.getElementById(`answer${riddleNumber}`);
             const feedback = document.getElementById(`feedback${riddleNumber}`);
             const userAnswer = answerInput.value.trim();
             
             if (!userAnswer) {
+                playIncorrectAnswer();
                 showFeedback(feedback, 'Please enter an answer!', false);
                 return;
             }
@@ -715,6 +799,7 @@
             }
             
             if (isCorrect) {
+                playCorrectAnswer();
                 showFeedback(feedback, '✅ Correct! Well done!', true);
                 gameState.riddlesSolved++;
                 updateProgress();
@@ -732,6 +817,7 @@
                     }
                 }, 1500);
             } else {
+                playIncorrectAnswer();
                 showFeedback(feedback, '❌ Incorrect. Try again!', false);
                 
                 // Clear input for retry
@@ -750,6 +836,7 @@
 
         // Finish the game
         function finishGame() {
+            playVictorySound();
             gameState.endTime = new Date();
             clearInterval(gameState.timerInterval);
             
@@ -771,6 +858,8 @@
 
         // Reset game
         function resetGame() {
+            playButtonClick();
+            
             // Reset game state
             gameState = {
                 teamName: '',

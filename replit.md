@@ -1,6 +1,6 @@
 # Overview
 
-This is an interactive escape room challenge web application built as a single-page HTML game. The project creates an immersive puzzle-solving experience with a cyberpunk aesthetic, featuring dark gradients, neon colors, and retro typography. The application appears to be designed as a browser-based puzzle game where users solve challenges to "escape" through progressive levels or scenarios.
+This is an interactive escape room challenge web application built as a single-page HTML game. The project creates an immersive puzzle-solving experience with a vibrant cyberpunk aesthetic, featuring dynamic animated gradients in bright colors (magenta, purple, cyan, yellow), neon effects, and retro typography. The application includes an engaging FPL Trophy mystery storyline and comprehensive sound effects. Users solve three sequential riddles to "escape" while being timed.
 
 # User Preferences
 
@@ -16,9 +16,10 @@ Preferred communication style: Simple, everyday language.
 
 ## Styling Strategy
 - **CSS-in-HTML approach**: All styles are embedded within the HTML file for simplicity and portability
-- **Color scheme**: Dark theme with blue-purple gradients (#1a1a2e, #16213e, #0f3460) and red accent (#e94560)
+- **Color scheme**: Vibrant theme with animated gradients using bright colors (magenta #ff006e, purple #8338ec, cyan #3a86ff, yellow #ffbe0b, mint green #06ffa5)
 - **Typography**: Courier New monospace font for retro computer terminal appearance
-- **Visual effects**: Box shadows and text shadows for glowing neon effects
+- **Visual effects**: Extensive animations including rainbow text gradients, pulsing containers, shimmer effects, and glowing borders
+- **Sound integration**: Web Audio API for interactive sound effects (button clicks, correct/incorrect answers, victory fanfare, timer ticks)
 
 ## Game Logic Architecture
 - **Client-side only**: No backend server required, runs entirely in the browser
