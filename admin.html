@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Room - Admin Leaderboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #fffacd;
+            color: #333333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn.danger {
+            background: #dc3545;
+        }
+
+        .btn.danger:hover {
+            background: #c82333;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .leaderboard-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .rank {
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .rank.first { color: #ffd700; }
+        .rank.second { color: #c0c0c0; }
+        .rank.third { color: #cd7f32; }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .leaderboard-table {
+                font-size: 0.9rem;
+            }
+            
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🏆 Admin Leaderboard</h1>
+            <p class="subtitle">Escape Room Competition Results</p>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTeams">-</div>
+                <div class="stat-label">Total Teams</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="fastestTime">-</div>
+                <div class="stat-label">Fastest Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="averageTime">-</div>
+                <div class="stat-label">Average Time</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="refreshLeaderboard()">🔄 Refresh</button>
+            <button class="btn danger" onclick="clearLeaderboard()">🗑️ Clear All Data</button>
+        </div>
+
+        <div id="loadingState" class="loading">
+            Loading leaderboard...
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>No teams yet!</h3>
+            <p>Teams will appear here once they complete the escape room.</p>
+        </div>
+
+        <table class="leaderboard-table" id="leaderboardTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team Name</th>
+                    <th>Completion Time</th>
+                    <th>Riddles Solved</th>
+                    <th>Completed At</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Load leaderboard on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLeaderboard();
+        });
+
+        // Load leaderboard data
+        async function loadLeaderboard() {
+            try {
+                showLoading();
+                
+                const response = await fetch('/api/leaderboard');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch leaderboard');
+                }
+                
+                const teams = await response.json();
+                displayLeaderboard(teams);
+                updateStats(teams);
+                
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+                showError('Failed to load leaderboard data');
+            }
+        }
+
+        // Display leaderboard table
+        function displayLeaderboard(teams) {
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            const table = document.getElementById('leaderboardTable');
+            const tbody = document.getElementById('leaderboardBody');
+
+            loadingState.style.display = 'none';
+
+            if (teams.length === 0) {
+                emptyState.style.display = 'block';
+                table.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            table.style.display = 'table';
+
+            // Clear existing rows
+            tbody.innerHTML = '';
+
+            // Add team rows
+            teams.forEach((team, index) => {
+                const rank = index + 1;
+                const row = document.createElement('tr');
+                
+                const minutes = Math.floor(team.completion_time / 60);
+                const seconds = team.completion_time % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                const completedAt = new Date(team.completed_at).toLocaleString();
+                
+                let rankClass = '';
+                if (rank === 1) rankClass = 'first';
+                else if (rank === 2) rankClass = 'second';
+                else if (rank === 3) rankClass = 'third';
+
+                row.innerHTML = `
+                    <td class="rank ${rankClass}">${getRankDisplay(rank)}</td>
+                    <td><strong>${team.team_name}</strong></td>
+                    <td>${timeString}</td>
+                    <td>${team.riddles_solved}/3</td>
+                    <td>${completedAt}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Get rank display with medals
+        function getRankDisplay(rank) {
+            switch(rank) {
+                case 1: return '🥇 1st';
+                case 2: return '🥈 2nd';
+                case 3: return '🥉 3rd';
+                default: return `${rank}th`;
+            }
+        }
+
+        // Update statistics
+        function updateStats(teams) {
+            const totalTeams = teams.length;
+            document.getElementById('totalTeams').textContent = totalTeams;
+
+            if (totalTeams > 0) {
+                // Fastest time (first in sorted array)
+                const fastestTime = teams[0].completion_time;
+                const fastestMinutes = Math.floor(fastestTime / 60);
+                const fastestSeconds = fastestTime % 60;
+                document.getElementById('fastestTime').textContent = 
+                    `${fastestMinutes.toString().padStart(2, '0')}:${fastestSeconds.toString().padStart(2, '0')}`;
+
+                // Average time
+                const averageTime = Math.round(teams.reduce((sum, team) => sum + team.completion_time, 0) / totalTeams);
+                const avgMinutes = Math.floor(averageTime / 60);
+                const avgSeconds = averageTime % 60;
+                document.getElementById('averageTime').textContent = 
+                    `${avgMinutes.toString().padStart(2, '0')}:${avgSeconds.toString().padStart(2, '0')}`;
+            } else {
+                document.getElementById('fastestTime').textContent = '-';
+                document.getElementById('averageTime').textContent = '-';
+            }
+        }
+
+        // Show loading state
+        function showLoading() {
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('leaderboardTable').style.display = 'none';
+        }
+
+        // Show error message
+        function showError(message) {
+            document.getElementById('loadingState').textContent = message;
+        }
+
+        // Refresh leaderboard
+        function refreshLeaderboard() {
+            loadLeaderboard();
+        }
+
+        // Clear all leaderboard data
+        async function clearLeaderboard() {
+            if (!confirm('Are you sure you want to clear all leaderboard data? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/clear-leaderboard', {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to clear leaderboard');
+                }
+
+                alert('Leaderboard cleared successfully!');
+                loadLeaderboard();
+                
+            } catch (error) {
+                console.error('Error clearing leaderboard:', error);
+                alert('Failed to clear leaderboard. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -646,6 +646,9 @@
             const seconds = totalSeconds % 60;
             const finalTimeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
+            // Submit score to leaderboard
+            submitScore(gameState.teamName, totalSeconds, gameState.riddlesSolved);
+            
             // Update victory section
             document.getElementById('finalTeamName').textContent = gameState.teamName;
             document.getElementById('finalTime').textContent = finalTimeString;
@@ -654,6 +657,29 @@
             document.getElementById('gameSection').style.display = 'none';
             document.getElementById('victorySection').style.display = 'block';
             document.getElementById('timer').style.display = 'none';
+        }
+
+        // Submit score to backend
+        async function submitScore(teamName, completionTime, riddlesSolved) {
+            try {
+                const response = await fetch('/api/teams', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        teamName,
+                        completionTime,
+                        riddlesSolved
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error('Failed to submit score');
+                }
+            } catch (error) {
+                console.error('Error submitting score:', error);
+            }
         }
 
         // Reset game
