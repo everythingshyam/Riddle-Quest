@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Room Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #8B0000;
+            color: #333333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            background: #8B0000;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            font-weight: bold;
+            display: none;
+            color: #333;
+        }
+
+        .team-input-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .story-text {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .team-name-input {
+            margin-bottom: 20px;
+        }
+
+        .team-name-input label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .team-name-input input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-section {
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .riddle {
+            display: none;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .riddle.active {
+            display: block;
+        }
+
+        .riddle h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .riddle-content {
+            margin-bottom: 20px;
+        }
+
+        .riddle-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .cipher-grid {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .answer-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .answer-input input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-family: inherit;
+            min-width: 200px;
+        }
+
+        .submit-btn {
+            background: #28a745;
+        }
+
+        .submit-btn:hover {
+            background: #1e7e34;
+        }
+
+        .feedback {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .victory-section {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .victory-section h2 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .victory-stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .victory-stats p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🔓 Escape Room Challenge</h1>
+            <p class="subtitle">The Mystery of the Missing FPL Trophy</p>
+        </div>
+
+        <div class="timer" id="timer">Time: 00:00</div>
+
+        <!-- Team Input Section -->
+        <div class="team-input-section" id="teamInputSection">
+            <div class="story-text">
+                <p><strong>Emergency Alert!</strong></p>
+                <p>The prestigious FPL Trophy has mysteriously vanished from the league headquarters! You are the elite investigation team called in to solve this crisis.</p>
+                <p>Your mission: Follow the clues, solve the puzzles, and discover the location of the missing Golden Mug before time runs out!</p>
+                <p><em>Are you ready to accept this challenge?</em></p>
+            </div>
+            
+            <div class="team-name-input">
+                <label for="teamNameInput">Enter Your Team Name:</label>
+                <input type="text" id="teamNameInput" placeholder="Team Name" maxlength="50">
+            </div>
+            <button class="btn" onclick="startGame()">🚀 Start Investigation</button>
+        </div>
+
+        <!-- Game Section -->
+        <div class="game-section" id="gameSection">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Riddle 1 -->
+            <div class="riddle" id="riddle1">
+                <h3>🔍 Clue 1 of 3</h3>
+                <div class="riddle-content">
+                    <p class="riddle-text">The first clue was found at the crime scene. Decode this cipher to find the next location:</p>
+                    <div class="cipher-grid">
+                        <svg width="400" height="280" viewBox="0 0 400 280">
+                            <!-- Grid background -->
+                            <rect x="50" y="60" width="300" height="150" fill="#333" stroke="#666" stroke-width="2"/>
+                            
+                            <!-- Grid lines -->
+                            <g stroke="#e94560" stroke-width="1" fill="none">
+                                <line x1="50" y1="60" x2="350" y2="60"/>
+                                <line x1="50" y1="110" x2="350" y2="110"/>
+                                <line x1="50" y1="160" x2="350" y2="160"/>
+                                <line x1="50" y1="210" x2="350" y2="210"/>
+                                <line x1="50" y1="60" x2="50" y2="210"/>
+                                <line x1="125" y1="60" x2="125" y2="210"/>
+                                <line x1="200" y1="60" x2="200" y2="210"/>
+                                <line x1="275" y1="60" x2="275" y2="210"/>
+                                <line x1="350" y1="60" x2="350" y2="210"/>
+                            </g>
+                            
+                            <!-- Letters and symbols -->
+                            <text x="87" y="90" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">C</text>
+                            <text x="162" y="90" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">3</text>
+                            <text x="237" y="90" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">T</text>
+                            <text x="312" y="90" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">20</text>
+                            
+                            <text x="87" y="140" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">19</text>
+                            <text x="162" y="140" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">S</text>
+                            <text x="237" y="140" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">2</text>
+                            <text x="312" y="140" text-anchor="middle" fill="#f5f5f5" font-size="24" font-family="monospace">B</text>
+                            
+                            <!-- Arrows pointing to solution -->
+                            <polygon points="87,190 92,180 82,180" fill="#f27121"/>
+                            <polygon points="237,190 242,180 232,180" fill="#f27121"/>
+                            <polygon points="162,190 167,180 157,180" fill="#f27121"/>
+                            <polygon points="312,190 317,180 307,180" fill="#f27121"/>
+                            
+                            <!-- Hint text -->
+                            <text x="200" y="240" text-anchor="middle" fill="#f27121" font-size="12" font-family="monospace">Read the letters in order</text>
+                            <text x="200" y="260" text-anchor="middle" fill="#f27121" font-size="12" font-family="monospace">(Numbers are distractors)</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="answer-input">
+                    <input type="text" id="answer1" placeholder="Enter the 4-letter code" maxlength="4">
+                    <button class="btn submit-btn" onclick="checkAnswer(1)">Submit</button>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+
+            <!-- Riddle 2 -->
+            <div class="riddle" id="riddle2">
+                <h3>🔢 Clue 2 of 3</h3>
+                <div class="riddle-content">
+                    <p class="riddle-text">I am a number that when reversed becomes 25% larger. What am I?</p>
+                    <p class="riddle-text" style="font-style: italic; opacity: 0.8;">Hint: Think of two-digit numbers and their reverses.</p>
+                </div>
+                <div class="answer-input">
+                    <input type="number" id="answer2" placeholder="Enter the number">
+                    <button class="btn submit-btn" onclick="checkAnswer(2)">Submit</button>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+
+            <!-- Riddle 3 -->
+            <div class="riddle" id="riddle3">
+                <h3>🎭 Final Clue</h3>
+                <div class="riddle-content">
+                    <p class="riddle-text">In a room with no windows and no doors, there is a table, a mirror, and a saw. How do you get out?</p>
+                    <p class="riddle-text" style="font-style: italic; opacity: 0.8;">Hint: Think about wordplay and what you can do with these objects.</p>
+                </div>
+                <div class="answer-input">
+                    <input type="text" id="answer3" placeholder="How do you escape?" maxlength="50">
+                    <button class="btn submit-btn" onclick="checkAnswer(3)">Submit</button>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+        </div>
+
+        <!-- Victory Section -->
+        <div class="victory-section" id="victorySection">
+            <h2>🎉 TROPHY FOUND! 🎉</h2>
+            <div class="victory-stats">
+                <p><strong>Team:</strong> <span id="finalTeamName"></span></p>
+                <p><strong>Time:</strong> <span id="finalTime"></span></p>
+                <p><strong>Clues Solved:</strong> 3/3</p>
+            </div>
+            <p style="font-size: 1.2rem; color: #ffffff; margin-top: 20px;">
+                Congratulations! You have successfully located the missing FPL Trophy!
+            </p>
+            <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for sound effects
+        let audioContext;
+        
+        // Initialize audio context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Sound effect functions
+        function playSound(frequency, duration, type = 'sine', volume = 0.3) {
+            initAudio();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function playButtonClick() {
+            playSound(800, 0.1, 'square', 0.2);
+        }
+
+        function playCorrectAnswer() {
+            // Play a rising chord
+            setTimeout(() => playSound(523, 0.3, 'sine', 0.3), 0);    // C
+            setTimeout(() => playSound(659, 0.3, 'sine', 0.3), 100);  // E
+            setTimeout(() => playSound(784, 0.4, 'sine', 0.3), 200);  // G
+        }
+
+        function playIncorrectAnswer() {
+            // Play a descending sound
+            playSound(400, 0.2, 'triangle', 0.3);
+            setTimeout(() => playSound(300, 0.3, 'triangle', 0.3), 100);
+        }
+
+        function playVictorySound() {
+            // Play a victory fanfare
+            const melody = [523, 659, 784, 1047, 1047, 1047];
+            melody.forEach((freq, index) => {
+                setTimeout(() => playSound(freq, 0.3, 'sine', 0.3), index * 150);
+            });
+        }
+
+        // Game state
+        let gameState = {
+            teamName: '',
+            currentRiddle: 1,
+            riddlesSolved: 0,
+            startTime: null,
+            endTime: null,
+            timerInterval: null
+        };
+
+        // Correct answers for each riddle
+        const answers = {
+            1: 'CTSB', // From the visual cipher
+            2: 36,     // 36 reversed is 63, which is 75% more than 36 (36 * 1.75 = 63)
+            3: ['cut the table in half', 'saw the table in half', 'cut table in half', 'saw table in half', 'use the saw to cut the table']
+        };
+
+        // Start the game
+        function startGame() {
+            playButtonClick();
+            const teamNameInput = document.getElementById('teamNameInput');
+            const teamName = teamNameInput.value.trim();
+            
+            if (!teamName) {
+                playIncorrectAnswer();
+                alert('Please enter a team name!');
+                return;
+            }
+            
+            gameState.teamName = teamName;
+            gameState.startTime = new Date();
+            
+            // Hide team input section and show game section
+            document.getElementById('teamInputSection').style.display = 'none';
+            document.getElementById('gameSection').style.display = 'block';
+            document.getElementById('timer').style.display = 'block';
+            
+            // Show first riddle
+            showRiddle(1);
+            
+            // Start timer
+            startTimer();
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Show specific riddle
+        function showRiddle(riddleNumber) {
+            // Hide all riddles
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`riddle${i}`).classList.remove('active');
+            }
+            
+            // Show current riddle
+            document.getElementById(`riddle${riddleNumber}`).classList.add('active');
+            gameState.currentRiddle = riddleNumber;
+        }
+
+        // Check answer
+        function checkAnswer(riddleNumber) {
+            playButtonClick();
+            const answerInput = document.getElementById(`answer${riddleNumber}`);
+            const userAnswer = answerInput.value.trim();
+            const feedbackElement = document.getElementById(`feedback${riddleNumber}`);
+            
+            let isCorrect = false;
+            
+            if (riddleNumber === 1) {
+                isCorrect = userAnswer.toUpperCase() === answers[1];
+            } else if (riddleNumber === 2) {
+                isCorrect = parseInt(userAnswer) === answers[2];
+            } else if (riddleNumber === 3) {
+                isCorrect = answers[3].some(answer => 
+                    userAnswer.toLowerCase().includes(answer.toLowerCase())
+                );
+            }
+            
+            if (isCorrect) {
+                playCorrectAnswer();
+                gameState.riddlesSolved++;
+                showFeedback(feedbackElement, 'Correct! Moving to next clue...', true);
+                answerInput.disabled = true;
+                
+                setTimeout(() => {
+                    if (riddleNumber < 3) {
+                        showRiddle(riddleNumber + 1);
+                        updateProgress();
+                    } else {
+                        finishGame();
+                    }
+                }, 1500);
+            } else {
+                playIncorrectAnswer();
+                showFeedback(feedbackElement, 'Incorrect. Try again!', false);
+                answerInput.value = '';
+                answerInput.focus();
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progress = (gameState.riddlesSolved / 3) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        // Start timer
+        function startTimer() {
+            gameState.timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Update timer display
+        function updateTimer() {
+            const now = new Date();
+            const elapsed = Math.floor((now - gameState.startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            
+            const timerDisplay = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timer').textContent = `Time: ${timerDisplay}`;
+        }
+
+        // Show feedback
+        function showFeedback(feedbackElement, message, isCorrect) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedbackElement.style.display = 'block';
+        }
+
+        // Finish the game
+        function finishGame() {
+            playVictorySound();
+            gameState.endTime = new Date();
+            clearInterval(gameState.timerInterval);
+            
+            // Calculate final time
+            const totalSeconds = Math.floor((gameState.endTime - gameState.startTime) / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const finalTimeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update victory section
+            document.getElementById('finalTeamName').textContent = gameState.teamName;
+            document.getElementById('finalTime').textContent = finalTimeString;
+            
+            // Hide game section and show victory section
+            document.getElementById('gameSection').style.display = 'none';
+            document.getElementById('victorySection').style.display = 'block';
+            document.getElementById('timer').style.display = 'none';
+        }
+
+        // Reset game
+        function resetGame() {
+            playButtonClick();
+            gameState = {
+                teamName: '',
+                currentRiddle: 1,
+                riddlesSolved: 0,
+                startTime: null,
+                endTime: null,
+                timerInterval: null
+            };
+            
+            // Reset UI
+            document.getElementById('teamNameInput').value = '';
+            document.getElementById('teamInputSection').style.display = 'block';
+            document.getElementById('gameSection').style.display = 'none';
+            document.getElementById('victorySection').style.display = 'none';
+            document.getElementById('timer').style.display = 'none';
+            
+            // Reset all inputs and feedback
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`answer${i}`).value = '';
+                document.getElementById(`answer${i}`).disabled = false;
+                document.getElementById(`feedback${i}`).style.display = 'none';
+                document.getElementById(`riddle${i}`).classList.remove('active');
+            }
+            
+            // Reset progress
+            document.getElementById('progressFill').style.width = '0%';
+        }
+
+        // Allow Enter key to submit answers
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('teamInputSection').style.display !== 'none') {
+                    startGame();
+                } else {
+                    const activeRiddle = document.querySelector('.riddle.active');
+                    if (activeRiddle) {
+                        const riddleNumber = parseInt(activeRiddle.id.replace('riddle', ''));
+                        checkAnswer(riddleNumber);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
