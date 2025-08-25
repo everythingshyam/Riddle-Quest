@@ -21,7 +21,7 @@ app.use(express.static('.'));
 
 // Routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'simple-game.html'));
 });
 
 app.get('/admin', (req, res) => {
