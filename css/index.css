@@ -209,7 +209,7 @@ body {
 }
 
 .answer-input {
-  display: flex;
+  display: flex-col;
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
@@ -217,13 +217,13 @@ body {
 
 .answer-input input {
   flex: 1;
-  min-width: 200px;
-  padding: 10px;
+  min-width: 250px;
+  padding: 8px;
   font-size: 1rem;
   background: white;
-  border: 1px solid #ddd;
+  border: 1.5px solid #5dabfe;
   border-radius: 4px;
-  color: #333;
+  color: #252525;
 }
 
 .answer-input input:focus {
@@ -233,7 +233,7 @@ body {
 }
 
 .submit-btn {
-  padding: 12px 20px;
+  padding: 8px 15px;
   font-size: 1rem;
 }
 
@@ -296,6 +296,49 @@ body {
   background: #007bff;
   width: 1%;
   transition: width 0.5s ease;
+}
+
+.riddle-punch {
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #e94560;
+}
+
+.hint-btn {
+  background: #ffc107;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.hint-btn:hover {
+  background: #e0a800;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hint-content {
+  color: #a94d4d;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding-left: 10px;
+}
+
+.riddle-question {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 @media (max-width: 600px) {
