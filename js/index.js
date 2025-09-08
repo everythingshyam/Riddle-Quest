@@ -75,6 +75,7 @@ let gameState = {
 
 const noOfRiddles = 6;
 let timesHintTaken = 0;
+const penaltyPerHint = 5; // seconds
 
 // Correct answers for each riddle
 const answers = {
@@ -166,6 +167,9 @@ function reveal(riddleNumber) {
     if (gameState.startTime) {
       gameState.startTime = new Date(gameState.startTime.getTime() - 5000);
     }
+    console.log("Hint revealed for riddle", riddleNumber);
+    console.log("Penalty time added:", timesHintTaken * penaltyPerHint, "seconds");
+    console.log("Total hints taken:", timesHintTaken);
   }
 }
 
@@ -261,6 +265,8 @@ function finishGame() {
   // Update victory section
   document.getElementById("finalTeamName").textContent = gameState.teamName;
   document.getElementById("finalTime").textContent = finalTimeString;
+  document.getElementById("noHintsTaken").textContent = timesHintTaken;
+  document.getElementById("penaltyTimeAdded").textContent = timesHintTaken * penaltyPerHint + " seconds";
 
   // Hide game section and show victory section
   document.getElementById("gameSection").style.display = "none";
