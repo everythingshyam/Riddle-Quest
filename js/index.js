@@ -168,7 +168,11 @@ function reveal(riddleNumber) {
       gameState.startTime = new Date(gameState.startTime.getTime() - 5000);
     }
     console.log("Hint revealed for riddle", riddleNumber);
-    console.log("Penalty time added:", timesHintTaken * penaltyPerHint, "seconds");
+    console.log(
+      "Penalty time added:",
+      timesHintTaken * penaltyPerHint,
+      "seconds"
+    );
     console.log("Total hints taken:", timesHintTaken);
   }
 }
@@ -232,7 +236,7 @@ function checkAnswer(riddleNumber) {
     // Clear input for retry
     setTimeout(() => {
       answerInput.focus();
-    }, 1000);
+    }, 7000);
   }
 }
 
@@ -264,9 +268,11 @@ function finishGame() {
 
   // Update victory section
   document.getElementById("finalTeamName").textContent = gameState.teamName;
+  document.getElementById("finalTeamName2").textContent = gameState.teamName;
   document.getElementById("finalTime").textContent = finalTimeString;
   document.getElementById("noHintsTaken").textContent = timesHintTaken;
-  document.getElementById("penaltyTimeAdded").textContent = timesHintTaken * penaltyPerHint + " seconds";
+  document.getElementById("penaltyTimeAdded").textContent =
+    timesHintTaken * penaltyPerHint + " seconds";
 
   // Hide game section and show victory section
   document.getElementById("gameSection").style.display = "none";
