@@ -194,20 +194,20 @@ function checkAnswer(riddleNumber) {
 
   // Check answer based on riddle number
   if (riddleNumber === 1) {
-    isCorrect = userAnswer.toLowerCase() === answers[1];
+    isCorrect = userAnswer.toLowerCase().trim() === answers[1];
   } else if (riddleNumber === 2) {
-    isCorrect = userAnswer.toLowerCase() === answers[2];
+    isCorrect = userAnswer.toLowerCase().trim() === answers[2];
   } else if (riddleNumber === 3) {
-    const lowerAnswer = userAnswer.toLowerCase();
+    const lowerAnswer = userAnswer.toLowerCase().trim();
     isCorrect = answers[3].some((correctAnswer) =>
       lowerAnswer.includes(correctAnswer.toLowerCase())
     );
   } else if (riddleNumber === 4) {
-    isCorrect = userAnswer.toLowerCase() === answers[4];
+    isCorrect = userAnswer.toLowerCase().trim() === answers[4];
   } else if (riddleNumber === 5) {
-    isCorrect = userAnswer.toLowerCase() === answers[5];
+    isCorrect = userAnswer.toLowerCase().trim() === answers[5];
   } else if (riddleNumber === 6) {
-    const numericAnswer = parseInt(userAnswer, 10);
+    const numericAnswer = parseInt(userAnswer.trim(), 10);
     isCorrect = numericAnswer === answers[6];
   }
 
