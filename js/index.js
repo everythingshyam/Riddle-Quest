@@ -73,18 +73,21 @@ let gameState = {
   timerInterval: null,
 };
 
-const noOfRiddles = 6;
+const noOfRiddles = 9;
 let timesHintTaken = 0;
 const penaltyPerHint = 5; // seconds
 
 // Correct answers for each riddle
 const answers = {
-  1: "caretaker",
-  2: "keyboard",
-  3: ["footstep", "footsteps", "foot step", "foot steps"],
-  4: "clock",
-  5: "detective",
-  6: 550,
+  1: ["caretaker", "groundsman", "groundkeeper", "curator", "warden"],
+  2: ["keyboard"],
+  3: ["footstep", "footsteps", "foot step", "foot steps", "steps"],
+  4: ["clock"],
+  5: ["detective"],
+  6: ["tape", "cassette", "cassette tape", "audio tape"],
+  7: 1812,
+  8: ["charcoal", "coal", "graphite"],
+  9: 550, //all possible answers: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
 };
 
 // Start the game
@@ -194,21 +197,51 @@ function checkAnswer(riddleNumber) {
 
   // Check answer based on riddle number
   if (riddleNumber === 1) {
-    isCorrect = userAnswer.toLowerCase().trim() === answers[1];
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[1].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
   } else if (riddleNumber === 2) {
-    isCorrect = userAnswer.toLowerCase().trim() === answers[2];
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[2].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
   } else if (riddleNumber === 3) {
     const lowerAnswer = userAnswer.toLowerCase().trim();
     isCorrect = answers[3].some((correctAnswer) =>
       lowerAnswer.includes(correctAnswer.toLowerCase())
     );
   } else if (riddleNumber === 4) {
-    isCorrect = userAnswer.toLowerCase().trim() === answers[4];
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[4].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
   } else if (riddleNumber === 5) {
-    isCorrect = userAnswer.toLowerCase().trim() === answers[5];
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[5].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
   } else if (riddleNumber === 6) {
-    const numericAnswer = parseInt(userAnswer.trim(), 10);
-    isCorrect = numericAnswer === answers[6];
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[6].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
+  } else if (riddleNumber === 7) {
+    isCorrect = answers[7] === parseInt(userAnswer.trim());
+  } else if (riddleNumber === 8) {
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[8].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
+  } else if (riddleNumber === 9) {
+    //possible answers =601, 702, 803, 904
+    const num = parseInt(userAnswer.trim(), 10);
+    isCorrect =
+      /^\d{3}$/.test(userAnswer.trim()) && // Check if it's three digits
+      num - parseInt(userAnswer.split("").reverse().join(""), 10) === 495 &&
+      /0/.test(userAnswer.trim()); //checks if the number has atleast one zero
+  } else {
+    console.error("Answer Checking failed. Riddle number out of bounds.");
   }
 
   if (isCorrect) {

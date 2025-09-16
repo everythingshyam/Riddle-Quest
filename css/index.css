@@ -27,7 +27,7 @@
   --c-highlight: #fca311;
   --c-highlight-trans: rgba(252, 163, 17, 0.3);
   --c-neutral-bright: #dfb131;
-  --c-neutral: rgba(172, 173, 83,0.9);
+  --c-neutral: rgba(172, 173, 83,0.8);
   --c-neutral-trans: rgba(172, 173, 83, 0.3);
   --c-fade: rgb(213, 211, 191);
   --c-fade-trans: rgba(214, 217, 211, 0.1);
@@ -54,7 +54,7 @@ body {
   align-items: center;
   overflow-x: hidden;
   background-image: url("../assets/coloured-background-design/OBSKHP0.jpg");
-  background-size: 20%;
+  background-size: 35%;
   background-blend-mode: overlay;
   background-repeat: repeat;
 }
@@ -256,11 +256,6 @@ body {
 }
 
 .riddle-img {
-  /* width: 100%; */
-  /* max-width: 400px; */
-  /* height: auto; */
-  /* border-radius: 8px; */
-  /* border: 1px solid var(--c-main-trans); */
   margin: 20px auto;
   display: flex;
   justify-content: center;
@@ -271,12 +266,10 @@ body {
   height: auto;
   border-radius: 30px;
   transition: all 0.3s ease;
-  /* border: 2px solid var(--c-fade-trans); */
   box-shadow: 0 0 10px var(--c-main-trans);
 }
 
 .riddle-img img:hover {
-  /* border-color: var(--c-highlight); */
   box-shadow: 0 0 10px var(--c-fade);
 }
 
