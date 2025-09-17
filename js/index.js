@@ -87,7 +87,7 @@ const answers = {
   6: ["tape", "cassette", "cassette tape", "audio tape"],
   7: 1218,
   8: ["charcoal", "coal", "graphite"],
-  9: 803, //possible answers for one digit 0: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
+  9: ["sound"], //possible answers for one digit 0: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
 };
 
 // Start the game
@@ -234,7 +234,12 @@ function checkAnswer(riddleNumber) {
       lowerAnswer.includes(correctAnswer.toLowerCase())
     );
   } else if (riddleNumber === 9) {
-    isCorrect = answers[9] === parseInt(userAnswer.trim());
+    const lowerAnswer = userAnswer.toLowerCase().trim();
+    isCorrect = answers[9].some((correctAnswer) =>
+      lowerAnswer.includes(correctAnswer.toLowerCase())
+    );
+    // isCorrect = answers[9] === parseInt(userAnswer.trim());
+
     // const num = parseInt(userAnswer.trim(), 10);
     // isCorrect =
     //   /^\d{3}$/.test(userAnswer.trim()) && // Check if it's three digits
