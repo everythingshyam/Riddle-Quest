@@ -59,6 +59,28 @@ body {
   background-repeat: repeat;
 }
 
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--c-main); /* blank screen */
+  color: var(--c-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+  z-index: 9999;
+}
+#overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
 .container {
   margin: 30px;
   padding: 30px;

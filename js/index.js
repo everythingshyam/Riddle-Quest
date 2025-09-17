@@ -76,6 +76,7 @@ let gameState = {
 const noOfRiddles = 9;
 let timesHintTaken = 0;
 const penaltyPerHint = 5; // seconds
+const overlay = document.getElementById("overlay");
 
 // Correct answers for each riddle
 const answers = {
@@ -90,13 +91,31 @@ const answers = {
   9: ["sound"], //possible answers for one digit 0: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
 };
 
+//loading page
+function showLoading() {
+  overlay.classList.add("show");
+
+  // after 1 second: (option A) hide overlay
+  setTimeout(() => {
+    overlay.classList.remove("show");
+  }, 1000);
+}
+
+function goToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+//initial tasks
+goToTop();
+
 // Start the game
 function startGame() {
   playButtonClick();
-  window.scrollTo({
-  top: 0,
-  behavior: "smooth"
-});
+  // showLoading();
+  goToTop();
   const teamNameInput = document.getElementById("teamNameInput");
   const teamName = teamNameInput.value.trim();
 
@@ -270,10 +289,8 @@ function checkAnswer(riddleNumber) {
       } else {
         finishGame();
       }
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      // showLoading();
+      goToTop();
     }, 1500);
   } else {
     playIncorrectAnswer();
