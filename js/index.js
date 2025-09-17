@@ -93,6 +93,10 @@ const answers = {
 // Start the game
 function startGame() {
   playButtonClick();
+  window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
   const teamNameInput = document.getElementById("teamNameInput");
   const teamName = teamNameInput.value.trim();
 
@@ -266,6 +270,10 @@ function checkAnswer(riddleNumber) {
       } else {
         finishGame();
       }
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }, 1500);
   } else {
     playIncorrectAnswer();
