@@ -85,9 +85,9 @@ const answers = {
   4: ["clock"],
   5: ["detective"],
   6: ["tape", "cassette", "cassette tape", "audio tape"],
-  7: 1812,
+  7: 1218,
   8: ["charcoal", "coal", "graphite"],
-  9: 550, //all possible answers: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
+  9: 803, //possible answers for one digit 0: 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 601, 702, 803, 904
 };
 
 // Start the game
@@ -234,12 +234,12 @@ function checkAnswer(riddleNumber) {
       lowerAnswer.includes(correctAnswer.toLowerCase())
     );
   } else if (riddleNumber === 9) {
-    //possible answers =601, 702, 803, 904
-    const num = parseInt(userAnswer.trim(), 10);
-    isCorrect =
-      /^\d{3}$/.test(userAnswer.trim()) && // Check if it's three digits
-      num - parseInt(userAnswer.split("").reverse().join(""), 10) === 495 &&
-      /0/.test(userAnswer.trim()); //checks if the number has atleast one zero
+    isCorrect = answers[9] === parseInt(userAnswer.trim());
+    // const num = parseInt(userAnswer.trim(), 10);
+    // isCorrect =
+    //   /^\d{3}$/.test(userAnswer.trim()) && // Check if it's three digits
+    //   num - parseInt(userAnswer.split("").reverse().join(""), 10) === 495 &&
+    //   /0/.test(userAnswer.trim()); //checks if the number has atleast one zero
   } else {
     console.error("Answer Checking failed. Riddle number out of bounds.");
   }
